@@ -1,0 +1,8 @@
+*----------------------------------------------------------------------*
+***INCLUDE LZ_GF_CONV_MOEDAF02.
+*----------------------------------------------------------------------*
+form f_atualiza_log.
+  zta_conv_moeda-usuario = sy-uname.
+  zta_conv_moeda-data    = sy-datum.
+  zta_conv_moeda-hora    = sy-uzeit.
+ENDFORM.
