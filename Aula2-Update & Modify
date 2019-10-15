@@ -1,0 +1,45 @@
+*&---------------------------------------------------------------------*
+*& Report Z_INSERE_DADOS_COMMODITIES
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT z_insere_dados_commodities.
+
+
+PARAMETERS: p_emp   TYPE zta_conv_moeda-zempresa,
+            p_com   TYPE zta_conv_moeda-zcommodites,
+            p_dia   TYPE zta_conv_moeda-dia_da_atualizacao,
+            p_valor TYPE zta_conv_moeda-zvalor.
+
+
+DATA: es_zte_conv_moeda TYPE zta_conv_moeda.
+
+MOVE: p_emp    TO es_zte_conv_moeda-zempresa,
+      p_com    TO es_zte_conv_moeda-zcommodites,
+      p_dia    TO es_zte_conv_moeda-dia_da_atualizacao,
+      p_valor  TO es_zte_conv_moeda-zvalor,
+      sy-uname TO es_zte_conv_moeda-usuario,
+      sy-datum TO es_zte_conv_moeda-data,
+      sy-uzeit TO es_zte_conv_moeda-hora.
+
+*SELECT COUNT(*)
+*  FROM zta_conv_moeda
+*  WHERE zempresa           = p_emp AND
+*        ZCOMMODITES        = p_com AND
+*        dia_da_atualizacao = p_dia.
+*IF sy-subrc IS INITIAL.
+*  UPDATE zta_conv_moeda FROM es_zte_conv_moeda.
+*  IF sy-subrc IS INITIAL.
+*    MESSAGE: 'Dados Alterados com sucesso' TYPE 'S'.
+*  ENDIF.
+*ELSE.
+*  INSERT zta_conv_moeda FROM es_zte_conv_moeda.
+*  IF sy-subrc = 0.
+*    MESSAGE: 'Dados inseridos com sucesso' TYPE 'S'.
+*  ENDIF.
+*ENDIF.
+
+MODIFY zta_conv_moeda FROM es_zte_conv_moeda.
+IF sy-subrc IS INITIAL.
+  MESSAGE: 'Dados Inseridos ou Alrterados com sucesso' TYPE 'S'.
+ENDIF.
